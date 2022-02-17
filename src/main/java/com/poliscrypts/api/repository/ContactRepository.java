@@ -10,6 +10,5 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface ContactRepository extends JpaRepository<Contact, Integer> {
-
-    Optional<Contact> findContactByFirstName(String firstname);
+    Optional<Contact> findContactByFirstNameAndLastName(String firstName, String lastName);
 }

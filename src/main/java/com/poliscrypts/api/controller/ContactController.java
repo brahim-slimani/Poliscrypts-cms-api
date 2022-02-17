@@ -2,6 +2,7 @@ package com.poliscrypts.api.controller;
 
 import com.poliscrypts.api.entity.Contact;
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
+import com.poliscrypts.api.model.GenericPojoResponse;
 import com.poliscrypts.api.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,5 +22,15 @@ public class ContactController {
     @PostMapping("/contact")
     public ExtendedGenericPojoResponse addContact(@RequestBody Contact contact) {
         return contactService.addNewContact(contact);
+    }
+
+    @PatchMapping("/contact")
+    public ExtendedGenericPojoResponse updateContact(@RequestBody Contact contact) {
+        return contactService.updateContact(contact);
+    }
+
+    @DeleteMapping("contact")
+    public GenericPojoResponse deleteContact(@RequestParam("id") Integer id) {
+        return contactService.deleteContact(id);
     }
 }

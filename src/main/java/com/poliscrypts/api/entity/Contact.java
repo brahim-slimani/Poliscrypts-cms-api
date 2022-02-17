@@ -1,6 +1,7 @@
 package com.poliscrypts.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.Nullable;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,7 +23,7 @@ public class Contact {
     private Integer id;
 
     @NotNull
-    @Column(name = "FIRSTANME")
+    @Column(name = "FIRSTANME", nullable = false)
     private String firstName;
 
     @NotNull
