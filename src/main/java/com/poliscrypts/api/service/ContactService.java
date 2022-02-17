@@ -3,11 +3,13 @@ package com.poliscrypts.api.service;
 import com.poliscrypts.api.entity.Contact;
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
 import com.poliscrypts.api.repository.ContactRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class ContactService {
 
