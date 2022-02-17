@@ -1,5 +1,6 @@
 package com.poliscrypts.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poliscrypts.api.enumeration.ContactTypeEnum;
 import lombok.*;
 
@@ -24,6 +25,4 @@ public class ContactType {
     @NotNull
     private String type;
 
-    @OneToOne(mappedBy = "contactType")
-    private Contact contact;
 }
