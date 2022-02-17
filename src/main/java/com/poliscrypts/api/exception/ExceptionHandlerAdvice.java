@@ -49,21 +49,11 @@ public class ExceptionHandlerAdvice {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(CompanyException.class)
+    public ResponseEntity<GenericPojoResponse> companyException(CompanyException exception) {
+        log.warn(exception.getMessage());
+        GenericPojoResponse response = new GenericPojoResponse(exception.getCode(), exception.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 }
-
-/*@ControllerAdvice
-class CustomErrorHandler extends ResponseEntityExceptionHandler {
-
-    @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String error = ex.getParameterName() + " -> parameter is missing in request";
-        return new ResponseEntity<>(new GenericPojoResponse(status.value(), error), status);
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String error = "body is missing in request";
-        return new ResponseEntity<>(new GenericPojoResponse(status.value(), error), status);
-    }
-
-}*/

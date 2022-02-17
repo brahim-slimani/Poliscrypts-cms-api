@@ -14,7 +14,7 @@ public class ContactController {
     @Autowired
     ContactService contactService;
 
-    @GetMapping("/contact")
+    @GetMapping("/contacts")
     public ExtendedGenericPojoResponse getContacts() {
         return contactService.getContacts();
     }
@@ -29,7 +29,7 @@ public class ContactController {
         return contactService.updateContact(contact);
     }
 
-    @DeleteMapping("contact")
+    @DeleteMapping("/contact")
     public GenericPojoResponse deleteContact(@RequestParam("id") Integer id) {
         return contactService.deleteContact(id);
     }

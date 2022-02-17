@@ -14,10 +14,10 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class Entreprise {
+public class Company {
 
     @Id
-    @Column(name = "ENTREPRISE_ID")
+    @Column(name = "COMPANY_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -26,9 +26,9 @@ public class Entreprise {
     private String address;
 
     @NotNull
-    @Column(name = "TVA_NUMBER")
+    @Column(name = "TVA_NUMBER", unique = true)
     private Long tvaNumber;
 
-    @ManyToMany(mappedBy = "entreprises", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "companies", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Contact> contacts = new ArrayList<>();
 }

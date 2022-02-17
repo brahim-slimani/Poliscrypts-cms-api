@@ -1,7 +1,6 @@
 package com.poliscrypts.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.Nullable;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -43,9 +42,9 @@ public class Contact {
     @ManyToMany
     @JsonIgnore
     @JoinTable(
-            name = "CONTACT_ENTREPRISES",
+            name = "CONTACT_COMPANIES",
             joinColumns = {@JoinColumn(name = "CONTACT_ID", referencedColumnName = "CONTACT_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "ENTREPRISE_ID", referencedColumnName = "ENTREPRISE_ID")})
-    private List<Entreprise> entreprises = new ArrayList<>();
+            inverseJoinColumns = {@JoinColumn(name = "COMPANY_ID", referencedColumnName = "COMPANY_ID")})
+    private List<Company> companies = new ArrayList<>();
 
 }
