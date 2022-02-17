@@ -12,6 +12,6 @@ public class MainController {
 
     @GetMapping("/")
     public ResponseEntity<?> main() {
-        return new ResponseEntity<>(new ExtendedGenericPojoResponse<>(0, "Success", "WECLOME TO CMS API"), HttpStatus.OK);
+        return new ResponseEntity<>(new ExtendedGenericPojoResponse<>("WECLOME TO CMS API"), HttpStatus.OK);
     }
 }

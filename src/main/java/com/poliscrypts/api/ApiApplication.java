@@ -35,9 +35,9 @@ public class ApiApplication implements CommandLineRunner {
         Entreprise entreprise1 = Entreprise.builder().address("Ooredoo Algérie").tvaNumber(Long.valueOf(9054054)).build();
         entrepriseRepository.saveAll(Arrays.asList(entreprise0, entreprise1));
 
-        Contact contact0 = Contact.builder().firstName("Brahim").lastName("SLIMANI").address("Algiers").contactType(ContactType.EMPLOYEE.toString()).tvaNumber(Long.valueOf(1234)).build();
-        Contact contact1 = Contact.builder().firstName("Ahmed").lastName("Amine").address("Oran").contactType(ContactType.FREELANCER.toString()).build();
-        Contact contact2 = Contact.builder().firstName("Mohamed").lastName("Ali").address("Algiers").contactType(ContactType.FREELANCER.toString()).build();
+        Contact contact0 = Contact.builder().firstName("Brahim").lastName("SLIMANI").address("Algiers").contactType(ContactType.EMPLOYEE).tvaNumber(Long.valueOf(1234)).build();
+        Contact contact1 = Contact.builder().firstName("Ahmed").lastName("Amine").address("Oran").contactType(ContactType.FREELANCER).build();
+        Contact contact2 = Contact.builder().firstName("Mohamed").lastName("Ali").address("Algiers").contactType(ContactType.FREELANCER).build();
 
         contact0.setEntreprises(Arrays.asList(entreprise0, entreprise1));
         contact1.setEntreprises(Arrays.asList(entreprise0));

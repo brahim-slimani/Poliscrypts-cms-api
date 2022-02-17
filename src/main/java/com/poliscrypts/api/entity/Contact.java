@@ -1,5 +1,7 @@
 package com.poliscrypts.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.poliscrypts.api.enumeration.ContactType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,12 +36,13 @@ public class Contact {
 
     @NotNull
     @Column(name = "CONTACT_TYPE")
-    private String contactType;
+    private ContactType contactType;
 
     @Column(nullable = true)
     private Long tvaNumber;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "CONTACT_ENTREPRISES",
             joinColumns = {@JoinColumn(name = "CONTACT_ID", referencedColumnName = "CONTACT_ID")},
