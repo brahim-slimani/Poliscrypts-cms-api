@@ -24,4 +24,14 @@ public class ContactService {
         List<Contact> contacts = contactRepository.findAll();
         return new ExtendedGenericPojoResponse(contacts);
     }
+
+    /**
+     * Create new contact
+     * @param contact paylod body of the conatct
+     * @return code, message, contact object
+     */
+    public ExtendedGenericPojoResponse addNewContact(Contact contact) {
+        contactRepository.saveAndFlush(contact);
+        return new ExtendedGenericPojoResponse(contact);
+    }
 }

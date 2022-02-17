@@ -1,9 +1,7 @@
 package com.poliscrypts.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.poliscrypts.api.enumeration.ContactType;
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -34,8 +32,8 @@ public class Contact {
     @Column(name = "ADDRESS")
     private String address;
 
-    @NotNull
-    @Column(name = "CONTACT_TYPE")
+    @OneToOne
+    @JoinColumn(name = "CONTACT_TYPE_ID", referencedColumnName = "CONTACT_TYPE_ID")
     private ContactType contactType;
 
     @Column(nullable = true)
@@ -46,7 +44,7 @@ public class Contact {
     @JoinTable(
             name = "CONTACT_ENTREPRISES",
             joinColumns = {@JoinColumn(name = "CONTACT_ID", referencedColumnName = "CONTACT_ID")},
-            inverseJoinColumns = {@JoinColumn(name="ENTREPRISE_ID", referencedColumnName = "ENTREPRISE_ID")})
+            inverseJoinColumns = {@JoinColumn(name = "ENTREPRISE_ID", referencedColumnName = "ENTREPRISE_ID")})
     private List<Entreprise> entreprises = new ArrayList<>();
 
 }

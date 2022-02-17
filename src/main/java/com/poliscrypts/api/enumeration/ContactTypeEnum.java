@@ -1,5 +1,5 @@
 package com.poliscrypts.api.enumeration;
 
-public enum ContactType {
+public enum ContactTypeEnum {
     EMPLOYEE, FREELANCER
 }

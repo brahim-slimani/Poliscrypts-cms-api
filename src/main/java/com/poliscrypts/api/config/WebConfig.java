@@ -24,8 +24,8 @@ public class WebConfig {
         filter.setIncludePayload(true);
         filter.setMaxPayloadLength(10000);
         filter.setIncludeHeaders(false);
-        filter.setBeforeMessageSuffix("Request resource");
-        filter.setAfterMessagePrefix("Provided resource");
+        filter.setBeforeMessagePrefix("Request resource ");
+        filter.setAfterMessagePrefix("Provided resource ");
         return filter;
     }
 }
