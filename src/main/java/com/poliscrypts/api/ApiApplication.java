@@ -9,8 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+
 import java.util.Arrays;
 
+@Configuration
 @SpringBootApplication
 public class ApiApplication implements CommandLineRunner {
 
@@ -42,5 +48,13 @@ public class ApiApplication implements CommandLineRunner {
         contact0.setEntreprises(Arrays.asList(entreprise0, entreprise1));
         contact1.setEntreprises(Arrays.asList(entreprise0));
         contactRepository.saveAll(Arrays.asList(contact0, contact1, contact2));
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
     }
 }
