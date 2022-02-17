@@ -2,6 +2,7 @@ package com.poliscrypts.api;
 
 import com.poliscrypts.api.entity.Contact;
 import com.poliscrypts.api.entity.Entreprise;
+import com.poliscrypts.api.enumeration.ContactType;
 import com.poliscrypts.api.repository.ContactRepository;
 import com.poliscrypts.api.repository.EntrepriseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,9 @@ public class ApiApplication implements CommandLineRunner {
         Entreprise entreprise1 = Entreprise.builder().address("Ooredoo Algérie").tvaNumber(Long.valueOf(9054054)).build();
         entrepriseRepository.saveAll(Arrays.asList(entreprise0, entreprise1));
 
-        Contact contact0 = Contact.builder().firstName("Brahim").lastName("SLIMANI").address("Algiers").build();
-        Contact contact1 = Contact.builder().firstName("Ahmed").lastName("Amine").address("Oran").build();
-        Contact contact2 = Contact.builder().firstName("Mohamed").lastName("Ali").address("Algiers").build();
+        Contact contact0 = Contact.builder().firstName("Brahim").lastName("SLIMANI").address("Algiers").contactType(ContactType.EMPLOYEE.toString()).tvaNumber(Long.valueOf(1234)).build();
+        Contact contact1 = Contact.builder().firstName("Ahmed").lastName("Amine").address("Oran").contactType(ContactType.FREELANCER.toString()).build();
+        Contact contact2 = Contact.builder().firstName("Mohamed").lastName("Ali").address("Algiers").contactType(ContactType.FREELANCER.toString()).build();
 
         contact0.setEntreprises(Arrays.asList(entreprise0, entreprise1));
         contact1.setEntreprises(Arrays.asList(entreprise0));

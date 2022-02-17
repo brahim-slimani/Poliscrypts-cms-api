@@ -32,10 +32,18 @@ public class Contact {
     @Column(name = "ADDRESS")
     private String address;
 
+    @NotNull
+    @Column(name = "CONTACT_TYPE")
+    private String contactType;
+
+    @Column(nullable = true)
+    private Long tvaNumber;
+
     @ManyToMany
     @JoinTable(
             name = "CONTACT_ENTREPRISES",
             joinColumns = {@JoinColumn(name = "CONTACT_ID", referencedColumnName = "CONTACT_ID")},
             inverseJoinColumns = {@JoinColumn(name="ENTREPRISE_ID", referencedColumnName = "ENTREPRISE_ID")})
     private List<Entreprise> entreprises = new ArrayList<>();
+
 }
