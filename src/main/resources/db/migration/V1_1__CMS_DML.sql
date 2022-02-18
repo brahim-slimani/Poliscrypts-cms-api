@@ -1,0 +1,30 @@
+INSERT INTO "PUBLIC"."CONTACT_TYPE" VALUES
+(1, 'EMPLOYEE'),
+(2, 'FREELANCER');
+
+INSERT INTO "PUBLIC"."COMPANY" VALUES
+(1, 'PoliScrypts', 4349023),
+(2, 'Ooredoo Algeria', 9054054);
+
+INSERT INTO "PUBLIC"."CONTACT" VALUES
+(1, 'Algiers', 'Brahim', 'SLIMANI', 1234, 1),
+(2, 'Oran', 'Ahmed', 'Amine', NULL, 2),
+(3, 'Algiers', 'Mohamed', 'Ali', NULL, 2);
+
+INSERT INTO "PUBLIC"."CONTACTS_COMPANIES" VALUES
+(1, 1),
+(1, 2),
+(2, 1);
+
+INSERT INTO "PUBLIC"."ROLE" VALUES
+(1, 'ADMIN'),
+(2, 'USER');
+
+INSERT INTO "PUBLIC"."USER" VALUES
+(1, NULL, NULL, '$2a$12$irH1oDQ1IaCNlscvEqOYXOqKS4S.uI0DqRgaJJ9amPmOriF3RjukW', 'admin'),
+(2, NULL, NULL, '$2a$12$/oxbtNj1NNdIklWlmcfA4OGS7DFja6zWgdUO8dsEAgvYNOhHjK4Au', 'user');
+
+INSERT INTO "PUBLIC"."USERS_ROLES" VALUES
+(1, 1),
+(2, 2);
+
