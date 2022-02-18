@@ -45,13 +45,13 @@ public class ContactManagementApiApplication implements CommandLineRunner {
         compnayRepository.saveAll(Arrays.asList(company0, company1));
 
         Arrays.asList(ContactTypeEnum.values()).forEach((type) -> {
-            ContactType contactType = ContactType.builder().type(type.name()).build();
+            ContactType contactType = ContactType.builder().type(type).build();
             contactTypeRepository.save(contactType);
         });
 
-        Contact contact0 = Contact.builder().firstName("Brahim").lastName("SLIMANI").address("Algiers").contactType(contactTypeRepository.findByType(ContactTypeEnum.EMPLOYEE.name())).tvaNumber(Long.valueOf(1234)).build();
-        Contact contact1 = Contact.builder().firstName("Ahmed").lastName("Amine").address("Oran").contactType(contactTypeRepository.findByType(ContactTypeEnum.FREELANCER.name())).build();
-        Contact contact2 = Contact.builder().firstName("Mohamed").lastName("Ali").address("Algiers").contactType(contactTypeRepository.findByType(ContactTypeEnum.FREELANCER.name())).build();
+        Contact contact0 = Contact.builder().firstName("Brahim").lastName("SLIMANI").address("Algiers").contactType(contactTypeRepository.findByType(ContactTypeEnum.EMPLOYEE)).tvaNumber(Long.valueOf(1234)).build();
+        Contact contact1 = Contact.builder().firstName("Ahmed").lastName("Amine").address("Oran").contactType(contactTypeRepository.findByType(ContactTypeEnum.FREELANCER)).build();
+        Contact contact2 = Contact.builder().firstName("Mohamed").lastName("Ali").address("Algiers").contactType(contactTypeRepository.findByType(ContactTypeEnum.FREELANCER)).build();
 
         contact0.setCompanies(Arrays.asList(company0, company1));
         contact1.setCompanies(Arrays.asList(company0));

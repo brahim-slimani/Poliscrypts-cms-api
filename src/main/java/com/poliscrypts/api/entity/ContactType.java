@@ -1,11 +1,9 @@
 package com.poliscrypts.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poliscrypts.api.enumeration.ContactTypeEnum;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "CONTACT_TYPE")
@@ -22,7 +20,7 @@ public class ContactType {
     private Integer id;
 
     @Column(name = "TYPE")
-    @NotNull
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private ContactTypeEnum type;
 
 }

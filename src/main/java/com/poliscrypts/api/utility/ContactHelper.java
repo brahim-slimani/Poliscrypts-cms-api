@@ -10,6 +10,8 @@ import org.springframework.context.MessageSource;
 import java.util.Locale;
 import java.util.Optional;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 public class ContactHelper {
 
     /**
@@ -21,15 +23,15 @@ public class ContactHelper {
      * @param messageSource messageSource bean for customizing exception messages
      */
     public static void verifiedTvaConstraint(ContactTypeRepository contactTypeRepository, Contact contact, MessageSource messageSource) {
-        Optional<ContactType> contactType = contactTypeRepository.findById(contact.getContactType().getId());
+        ContactType contactType = contactTypeRepository.findByType(contact.getContactType().getType());
         //NOT FOUND CONTACT_TYPE CASE
-        if(!contactType.isPresent()) {
+        if(contactType == null) {
             throw new ContactException(messageSource.getMessage("contact.typeNotExist", null, new Locale("en")), 400);
         //FREELANCER WITHOUT TVA NUMBER CASE
-        }else if (contactType.get().getType() == ContactTypeEnum.FREELANCER.name() && contact.getTvaNumber() == null) {
+        }else if (contactType.getType() == ContactTypeEnum.FREELANCER && contact.getTvaNumber() == null) {
             throw new ContactException(messageSource.getMessage("contact.tva.freelancer", null, new Locale("en")), 400);
         //EMPLOYEE WITH TVA NUMBER CASE
-        } else if (contactType.get().getType() == ContactTypeEnum.EMPLOYEE.name() && contact.getTvaNumber() != null) {
+        } else if (contactType.getType() == ContactTypeEnum.EMPLOYEE && contact.getTvaNumber() != null) {
             throw new ContactException(messageSource.getMessage("contact.tva.employee", null, new Locale("en")), 400);
         }
     }

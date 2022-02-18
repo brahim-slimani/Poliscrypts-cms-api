@@ -2,6 +2,7 @@ package com.poliscrypts.api.service;
 
 import com.poliscrypts.api.entity.Company;
 import com.poliscrypts.api.entity.Contact;
+import com.poliscrypts.api.entity.ContactType;
 import com.poliscrypts.api.exception.CompanyException;
 import com.poliscrypts.api.exception.ContactException;
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
@@ -61,6 +62,7 @@ public class ContactService {
         }
         //CHECK THE TVA NUMBER CONSTRAINT FOR EMPLOYEE & FREELANCER CONTACT
         ContactHelper.verifiedTvaConstraint(contactTypeRepository, contact, messageSource);
+        contact.setContactType(contactTypeRepository.findByType(contact.getContactType().getType()));
         contactRepository.saveAndFlush(contact);
         return new ExtendedGenericPojoResponse(contact);
     }
@@ -77,6 +79,7 @@ public class ContactService {
         }
         //CHECK THE TVA NUMBER CONSTRAINT FOR EMPLOYEE & FREELANCER CONTACT
         ContactHelper.verifiedTvaConstraint(contactTypeRepository, contact, messageSource);
+        contact.setContactType(contactTypeRepository.findByType(contact.getContactType().getType()));
         contactRepository.saveAndFlush(contact);
         return new ExtendedGenericPojoResponse(contact);
     }

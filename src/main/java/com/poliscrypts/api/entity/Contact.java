@@ -3,6 +3,7 @@ package com.poliscrypts.api.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,11 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
+    @NotBlank(message = "firstName is required")
     @Column(name = "FIRSTANME", nullable = false)
     private String firstName;
 
-    @NotNull
+    @NotBlank(message = "lastName is required")
     @Column(name = "LASTNAME")
     private String lastName;
 
@@ -33,6 +34,7 @@ public class Contact {
     private String address;
 
     @OneToOne
+    @NotNull(message = "contactType is required")
     @JoinColumn(name = "CONTACT_TYPE_ID", referencedColumnName = "CONTACT_TYPE_ID")
     private ContactType contactType;
 

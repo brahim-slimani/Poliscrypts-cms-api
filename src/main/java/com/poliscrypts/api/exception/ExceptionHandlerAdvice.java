@@ -1,22 +1,23 @@
 package com.poliscrypts.api.exception;
 
+import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
 import com.poliscrypts.api.model.GenericPojoResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @ControllerAdvice
@@ -53,6 +54,18 @@ public class ExceptionHandlerAdvice {
     public ResponseEntity<GenericPojoResponse> companyException(CompanyException exception) {
         log.warn(exception.getMessage());
         GenericPojoResponse response = new GenericPojoResponse(exception.getCode(), exception.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<?> exceptionHandler(ConstraintViolationException e) {
+        log.warn(e.getMessage());
+        Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
+        Set<String> messages = new HashSet<>(constraintViolations.size());
+        messages.addAll(constraintViolations.stream()
+                .map(constraintViolation -> String.format("%s", constraintViolation.getMessage()))
+                .collect(Collectors.toList()));
+        ExtendedGenericPojoResponse response = new ExtendedGenericPojoResponse(400, "Error Constraint validation", messages);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
