@@ -44,7 +44,7 @@ public class Contact {
     @ManyToMany
     @JsonIgnore
     @JoinTable(
-            name = "CONTACT_COMPANIES",
+            name = "CONTACTS_COMPANIES",
             joinColumns = {@JoinColumn(name = "CONTACT_ID", referencedColumnName = "CONTACT_ID")},
             inverseJoinColumns = {@JoinColumn(name = "COMPANY_ID", referencedColumnName = "COMPANY_ID")})
     private List<Company> companies = new ArrayList<>();

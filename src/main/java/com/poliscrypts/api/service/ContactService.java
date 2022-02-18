@@ -2,7 +2,6 @@ package com.poliscrypts.api.service;
 
 import com.poliscrypts.api.entity.Company;
 import com.poliscrypts.api.entity.Contact;
-import com.poliscrypts.api.entity.ContactType;
 import com.poliscrypts.api.exception.CompanyException;
 import com.poliscrypts.api.exception.ContactException;
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;

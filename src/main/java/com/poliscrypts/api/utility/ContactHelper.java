@@ -8,9 +8,6 @@ import com.poliscrypts.api.repository.ContactTypeRepository;
 import org.springframework.context.MessageSource;
 
 import java.util.Locale;
-import java.util.Optional;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 public class ContactHelper {
 
