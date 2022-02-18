@@ -1,9 +1,12 @@
 package com.poliscrypts.api.service;
 
+import com.poliscrypts.api.entity.Company;
 import com.poliscrypts.api.entity.Contact;
+import com.poliscrypts.api.exception.CompanyException;
 import com.poliscrypts.api.exception.ContactException;
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
 import com.poliscrypts.api.model.GenericPojoResponse;
+import com.poliscrypts.api.repository.CompanyRepository;
 import com.poliscrypts.api.repository.ContactRepository;
 import com.poliscrypts.api.repository.ContactTypeRepository;
 import com.poliscrypts.api.utility.ContactHelper;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -25,6 +29,9 @@ public class ContactService {
 
     @Autowired
     ContactTypeRepository contactTypeRepository;
+
+    @Autowired
+    CompanyRepository companyRepository;
 
     @Autowired
     MessageSource messageSource;
@@ -86,6 +93,29 @@ public class ContactService {
             throw new ContactException(messageSource.getMessage("contact.notExist", null, new Locale("en")), 400);
         }
         contactRepository.delete(contact.get());
+        return new GenericPojoResponse(0, messageSource.getMessage("SUCCESS", null, new Locale("en")));
+    }
+
+    /**
+     * Assign a contact into specific company
+     * @param contactId contact id to be assigned
+     * @param companyId company id
+     * @return code, message
+     */
+    public GenericPojoResponse assignContact2Company(Integer contactId, Integer companyId) {
+        Optional<Contact> contact = contactRepository.findById(contactId);
+        Optional<Company> company = companyRepository.findById(companyId);
+        if(!contact.isPresent()) {
+            throw new ContactException(messageSource.getMessage("contact.notExist", null, new Locale("en")), 400);
+        }
+        if(!company.isPresent()) {
+            throw new CompanyException(messageSource.getMessage("company.notExist", null, new Locale("en")), 400);
+        }
+        Contact pojoContact = contact.get();
+        List<Company> companies = pojoContact.getCompanies();
+        companies.add(company.get());
+        pojoContact.setCompanies(companies);
+        contactRepository.saveAndFlush(pojoContact);
         return new GenericPojoResponse(0, messageSource.getMessage("SUCCESS", null, new Locale("en")));
     }
 

@@ -1,5 +1,6 @@
 package com.poliscrypts.api.controller;
 
+import com.poliscrypts.api.entity.Company;
 import com.poliscrypts.api.entity.Contact;
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
 import com.poliscrypts.api.model.GenericPojoResponse;
@@ -32,5 +33,10 @@ public class ContactController {
     @DeleteMapping("/contact")
     public GenericPojoResponse deleteContact(@RequestParam("id") Integer id) {
         return contactService.deleteContact(id);
+    }
+
+    @PatchMapping("/assign-contact2company")
+    public GenericPojoResponse assignContact2Company(@RequestParam Integer contactId, @RequestParam Integer companyId) {
+        return contactService.assignContact2Company(contactId, companyId);
     }
 }
