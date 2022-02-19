@@ -3,6 +3,7 @@ package com.poliscrypts.api.exception;
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
 import com.poliscrypts.api.model.GenericPojoResponse;
 import lombok.extern.slf4j.Slf4j;
+import netscape.security.ForbiddenTargetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.MessageSource;
@@ -18,6 +19,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.nio.file.AccessDeniedException;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -77,6 +79,13 @@ public class ExceptionHandlerAdvice {
                 .collect(Collectors.toList()));
         ExtendedGenericPojoResponse response = new ExtendedGenericPojoResponse(400, "Error Constraint validation", messages);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<GenericPojoResponse> badCredentialsException(AccessDeniedException exception) {
+        log.warn(exception.getMessage());
+        GenericPojoResponse response = new GenericPojoResponse(403, exception.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
 }

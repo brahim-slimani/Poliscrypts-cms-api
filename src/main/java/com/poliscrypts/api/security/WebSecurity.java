@@ -1,8 +1,11 @@
 package com.poliscrypts.api.security;
 
+import com.poliscrypts.api.enumeration.RoleEnum;
+import com.poliscrypts.api.utility.CustomHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -50,9 +53,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint)
+                .accessDeniedHandler(CustomHelper.customAccessDeniedHandler())
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/**").hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.USER.name())
+                .antMatchers(HttpMethod.POST,"/api/**").hasAuthority(RoleEnum.ADMIN.name())
+                .antMatchers(HttpMethod.PATCH,"/api/**").hasAuthority(RoleEnum.ADMIN.name())
+                .antMatchers(HttpMethod.DELETE,"/api/**").hasAuthority(RoleEnum.ADMIN.name())
                 .antMatchers("/api/**").authenticated();
         http.addFilterBefore(jwtSecurityFilter(), UsernamePasswordAuthenticationFilter.class);
     }

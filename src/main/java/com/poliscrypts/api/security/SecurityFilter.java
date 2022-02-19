@@ -38,7 +38,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }catch (UserException e) {
                     logger.warn("Failure authorization: "+ e.getMessage());
-                    CustomHelper.GenericResponse2HttpResponse(httpResponse, HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+                    CustomHelper.populateJsonResponse(httpResponse, HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
                 }
             }
         } catch (Exception e) {
