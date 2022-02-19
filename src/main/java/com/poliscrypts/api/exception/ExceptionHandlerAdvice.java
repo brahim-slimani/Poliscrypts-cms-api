@@ -4,14 +4,18 @@ import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
 import com.poliscrypts.api.model.GenericPojoResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.HashSet;
@@ -35,14 +39,6 @@ public class ExceptionHandlerAdvice {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public ResponseEntity<GenericPojoResponse> resourceNotFoundException(NoHandlerFoundException exception) {
-        exception.printStackTrace();
-        log.warn(exception.getMessage());
-        GenericPojoResponse response = new GenericPojoResponse(404, messageSource.getMessage("NOT_FOUND", null, new Locale("en")));
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-
     @ExceptionHandler(ContactException.class)
     public ResponseEntity<GenericPojoResponse> contactException(ContactException exception) {
         log.warn(exception.getMessage());
@@ -55,6 +51,20 @@ public class ExceptionHandlerAdvice {
         log.warn(exception.getMessage());
         GenericPojoResponse response = new GenericPojoResponse(exception.getCode(), exception.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<GenericPojoResponse> userException(UserException exception) {
+        log.warn(exception.getMessage());
+        GenericPojoResponse response = new GenericPojoResponse(exception.getCode(), exception.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<GenericPojoResponse> badCredentialsException(BadCredentialsException exception) {
+        log.warn(exception.getMessage());
+        GenericPojoResponse response = new GenericPojoResponse(401, exception.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
