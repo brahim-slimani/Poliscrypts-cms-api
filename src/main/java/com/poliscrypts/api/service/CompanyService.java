@@ -45,7 +45,7 @@ public class CompanyService {
         if (companyRepository.findByTvaNumber(company.getTvaNumber()).isPresent()) {
             throw new CompanyException(messageSource.getMessage("company.alreadyExist", null, new Locale("en")), 400);
         }
-        companyRepository.saveAndFlush(company);
+        companyRepository.save(company);
         return new ExtendedGenericPojoResponse(company);
     }
 
@@ -58,7 +58,7 @@ public class CompanyService {
     public ExtendedGenericPojoResponse updateCompany(Company company) {
         companyRepository.findById(company.getId())
                 .orElseThrow(() -> new ContactException(messageSource.getMessage("company.notExist", null, new Locale("en")), 400));
-        companyRepository.saveAndFlush(company);
+        companyRepository.save(company);
         return new ExtendedGenericPojoResponse(company);
     }
 
@@ -73,7 +73,7 @@ public class CompanyService {
         company.orElseThrow(() ->
                 new ContactException(messageSource.getMessage("company.notExist", null, new Locale("en")), 400));
         companyRepository.delete(company.get());
-        return new GenericPojoResponse(0, messageSource.getMessage("SUCCESS", null, new Locale("en")));
+        return new GenericPojoResponse(0, "Success");
     }
 
 }

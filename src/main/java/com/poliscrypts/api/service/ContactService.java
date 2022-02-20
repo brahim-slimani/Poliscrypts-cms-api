@@ -61,7 +61,7 @@ public class ContactService {
         //CHECK THE TVA NUMBER CONSTRAINT FOR EMPLOYEE & FREELANCER CONTACT
         ContactHelper.verifiedTvaConstraint(contactTypeRepository, contact, messageSource);
         contact.setContactType(contactTypeRepository.findByType(contact.getContactType().getType()));
-        contactRepository.saveAndFlush(contact);
+        contactRepository.save(contact);
         return new ExtendedGenericPojoResponse(contact);
     }
 
@@ -77,7 +77,7 @@ public class ContactService {
         //CHECK THE TVA NUMBER CONSTRAINT FOR EMPLOYEE & FREELANCER CONTACT
         ContactHelper.verifiedTvaConstraint(contactTypeRepository, contact, messageSource);
         contact.setContactType(contactTypeRepository.findByType(contact.getContactType().getType()));
-        contactRepository.saveAndFlush(contact);
+        contactRepository.save(contact);
         return new ExtendedGenericPojoResponse(contact);
     }
 
@@ -92,7 +92,7 @@ public class ContactService {
         contact.orElseThrow(() ->
                 new ContactException(messageSource.getMessage("contact.notExist", null, new Locale("en")), 400));
         contactRepository.delete(contact.get());
-        return new GenericPojoResponse(0, messageSource.getMessage("SUCCESS", null, new Locale("en")));
+        return new GenericPojoResponse(0, "Success");
     }
 
     /**
@@ -114,7 +114,7 @@ public class ContactService {
         companies.add(company.get());
         pojoContact.setCompanies(companies);
         contactRepository.saveAndFlush(pojoContact);
-        return new GenericPojoResponse(0, messageSource.getMessage("SUCCESS", null, new Locale("en")));
+        return new GenericPojoResponse(0, "Success");
     }
 
 }
