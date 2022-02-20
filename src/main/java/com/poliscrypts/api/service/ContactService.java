@@ -37,7 +37,6 @@ public class ContactService {
 
     /**
      * Retrieve all contacts
-     *
      * @return code, message, list of contacts
      */
     public ExtendedGenericPojoResponse getContacts() {
@@ -50,7 +49,6 @@ public class ContactService {
      * First of all we made a check if there is an existing contact which have the same firstName & lastName
      * If the condition is verified at time an exception will be thrown
      * Secondly before persist the object we make checkout through ContactHelper for tva constraint regarding employee & freelancer contact
-     *
      * @param contact payload body of the contact
      * @return code, message, contact object
      */
@@ -67,14 +65,13 @@ public class ContactService {
 
     /**
      * Update contact
-     *
      * @param contact payload body of the contact
      * @return code, message, contact object
      */
     public ExtendedGenericPojoResponse updateContact(Contact contact) {
-        contactRepository.findById(contact.getId()).orElseThrow(()->{
+        if (!contactRepository.findById(contact.getId()).isPresent()) {
             throw new ContactException(messageSource.getMessage("contact.notExist", null, new Locale("en")), 400);
-        });
+        }
         //CHECK THE TVA NUMBER CONSTRAINT FOR EMPLOYEE & FREELANCER CONTACT
         ContactHelper.verifiedTvaConstraint(contactTypeRepository, contact, messageSource);
         contact.setContactType(contactTypeRepository.findByType(contact.getContactType().getType()));
@@ -84,22 +81,20 @@ public class ContactService {
 
     /**
      * Delete contact
-     *
      * @param id contact id should be deleted
      * @return code, message, contact object
      */
     public GenericPojoResponse deleteContact(Integer id) {
         Optional<Contact> contact = contactRepository.findById(id);
-        contact.orElseThrow(()->{
+        if (!contact.isPresent()) {
             throw new ContactException(messageSource.getMessage("contact.notExist", null, new Locale("en")), 400);
-        });
+        }
         contactRepository.delete(contact.get());
         return new GenericPojoResponse(0, messageSource.getMessage("SUCCESS", null, new Locale("en")));
     }
 
     /**
      * Assign a contact into specific company
-     *
      * @param contactId contact id to be assigned
      * @param companyId company id
      * @return code, message
@@ -107,12 +102,12 @@ public class ContactService {
     public GenericPojoResponse assignContact2Company(Integer contactId, Integer companyId) {
         Optional<Contact> contact = contactRepository.findById(contactId);
         Optional<Company> company = companyRepository.findById(companyId);
-        contact.orElseThrow(() -> {
+        if(!contact.isPresent()) {
             throw new ContactException(messageSource.getMessage("contact.notExist", null, new Locale("en")), 400);
-        });
-        company.orElseThrow(() -> {
+        }
+        if(!company.isPresent()) {
             throw new CompanyException(messageSource.getMessage("company.notExist", null, new Locale("en")), 400);
-        });
+        }
         Contact pojoContact = contact.get();
         List<Company> companies = pojoContact.getCompanies();
         companies.add(company.get());

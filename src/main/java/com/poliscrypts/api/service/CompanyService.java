@@ -27,7 +27,6 @@ public class CompanyService {
 
     /**
      * Retrieve all companies
-     *
      * @return code, message, list of companies
      */
     public ExtendedGenericPojoResponse getCompanies() {
@@ -37,12 +36,11 @@ public class CompanyService {
 
     /**
      * Create new company
-     *
      * @param company payload body of the company
      * @return code, message, company object
      */
     public ExtendedGenericPojoResponse addNewCompany(Company company) {
-        if (companyRepository.findByTvaNumber(company.getTvaNumber()).isPresent()) {
+        if(companyRepository.findByTvaNumber(company.getTvaNumber()).isPresent()) {
             throw new CompanyException(messageSource.getMessage("company.alreadyExist", null, new Locale("en")), 400);
         }
         companyRepository.saveAndFlush(company);
@@ -51,29 +49,27 @@ public class CompanyService {
 
     /**
      * Update company
-     *
      * @param company payload body of the company
      * @return code, message, company object
      */
     public ExtendedGenericPojoResponse updateCompany(Company company) {
-        companyRepository.findById(company.getId()).orElseThrow(() -> {
+        if(!companyRepository.findById(company.getId()).isPresent()) {
             throw new ContactException(messageSource.getMessage("company.notExist", null, new Locale("en")), 400);
-        });
+        }
         companyRepository.saveAndFlush(company);
         return new ExtendedGenericPojoResponse(company);
     }
 
     /**
      * Delete company
-     *
      * @param id company id should be deleted
      * @return code, message, company object
      */
     public GenericPojoResponse deleteCompany(Integer id) {
         Optional<Company> company = companyRepository.findById(id);
-        company.orElseThrow(() -> {
+        if(!company.isPresent()) {
             throw new ContactException(messageSource.getMessage("company.notExist", null, new Locale("en")), 400);
-        });
+        }
         companyRepository.delete(company.get());
         return new GenericPojoResponse(0, messageSource.getMessage("SUCCESS", null, new Locale("en")));
     }
