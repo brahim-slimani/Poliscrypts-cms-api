@@ -35,7 +35,7 @@ public class CompanyService {
     }
 
     /**
-     * Create new contact
+     * Create new company
      * @param company payload body of the company
      * @return code, message, company object
      */
@@ -48,7 +48,7 @@ public class CompanyService {
     }
 
     /**
-     * Update contact
+     * Update company
      * @param company payload body of the company
      * @return code, message, company object
      */
@@ -61,7 +61,7 @@ public class CompanyService {
     }
 
     /**
-     * Delete contact
+     * Delete company
      * @param id company id should be deleted
      * @return code, message, company object
      */

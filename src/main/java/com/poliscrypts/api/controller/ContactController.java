@@ -1,6 +1,5 @@
 package com.poliscrypts.api.controller;
 
-import com.poliscrypts.api.entity.Company;
 import com.poliscrypts.api.entity.Contact;
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
 import com.poliscrypts.api.model.GenericPojoResponse;
