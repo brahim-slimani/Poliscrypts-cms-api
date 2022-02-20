@@ -1,0 +1,452 @@
+{
+	"info": {
+		"_postman_id": "e2a9e7fa-340a-44be-87a6-af854e6c46c7",
+		"name": "PoliScrypts CMS API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Contact",
+			"item": [
+				{
+					"name": "Create new contact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1Mzg0ODc3LCJleHAiOjE2NDYyNDg4NzcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.c_vTqjaLd1WqQkYpN7rCFKXZXXZkpGKFsIQOf9n5XnPmJ6_m2VVTUV1Fjt7vjIugFecV0pdi-p2lGtNH1NNAhQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Amine\",\r\n    \"lastName\": \"SLIMANI\",\r\n    \"address\": \"Algiers\",\r\n    \"contactType\": {\r\n        \"type\":\"FREELANCER\"\r\n    },\r\n    \"tvaNumber\": 4249\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cms/api/contact",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"api",
+								"contact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update contact",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1Mzg0ODc3LCJleHAiOjE2NDYyNDg4NzcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.c_vTqjaLd1WqQkYpN7rCFKXZXXZkpGKFsIQOf9n5XnPmJ6_m2VVTUV1Fjt7vjIugFecV0pdi-p2lGtNH1NNAhQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":2,\r\n    \"firstName\": \"Karim\",\r\n    \"lastName\": \"Meziane\",\r\n    \"address\": \"Algiers\",\r\n    \"contactType\": {\r\n        \"type\":\"EMPLOYEE\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cms/api/contact",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"api",
+								"contact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete contact",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1Mzg0ODc3LCJleHAiOjE2NDYyNDg4NzcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.c_vTqjaLd1WqQkYpN7rCFKXZXXZkpGKFsIQOf9n5XnPmJ6_m2VVTUV1Fjt7vjIugFecV0pdi-p2lGtNH1NNAhQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cms/api/contact?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"api",
+								"contact"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Contact List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1Mzg0ODc3LCJleHAiOjE2NDYyNDg4NzcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.c_vTqjaLd1WqQkYpN7rCFKXZXXZkpGKFsIQOf9n5XnPmJ6_m2VVTUV1Fjt7vjIugFecV0pdi-p2lGtNH1NNAhQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/cms/api/contacts",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"api",
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign contact into compnay",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1Mzg0ODc3LCJleHAiOjE2NDYyNDg4NzcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.c_vTqjaLd1WqQkYpN7rCFKXZXXZkpGKFsIQOf9n5XnPmJ6_m2VVTUV1Fjt7vjIugFecV0pdi-p2lGtNH1NNAhQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cms/api/assign-contact2company?contactId=3&companyId=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"api",
+								"assign-contact2company"
+							],
+							"query": [
+								{
+									"key": "contactId",
+									"value": "3"
+								},
+								{
+									"key": "companyId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "Create new compnay",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1Mzg0ODc3LCJleHAiOjE2NDYyNDg4NzcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.c_vTqjaLd1WqQkYpN7rCFKXZXXZkpGKFsIQOf9n5XnPmJ6_m2VVTUV1Fjt7vjIugFecV0pdi-p2lGtNH1NNAhQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tvaNumber\": 43433344,\r\n    \"address\": \"Mobilis\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cms/api/company",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"api",
+								"company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update compnay",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1Mzg0ODc3LCJleHAiOjE2NDYyNDg4NzcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.c_vTqjaLd1WqQkYpN7rCFKXZXXZkpGKFsIQOf9n5XnPmJ6_m2VVTUV1Fjt7vjIugFecV0pdi-p2lGtNH1NNAhQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":1,\r\n    \"address\": \"Ouled Fayet, Algiers\",\r\n    \"tvaNumber\": 410000000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cms/api/company",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"api",
+								"company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete compnay",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1Mzg0ODc3LCJleHAiOjE2NDYyNDg4NzcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.c_vTqjaLd1WqQkYpN7rCFKXZXXZkpGKFsIQOf9n5XnPmJ6_m2VVTUV1Fjt7vjIugFecV0pdi-p2lGtNH1NNAhQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cms/api/company?id=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"api",
+								"company"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Company List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1Mzg0ODc3LCJleHAiOjE2NDYyNDg4NzcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.c_vTqjaLd1WqQkYpN7rCFKXZXXZkpGKFsIQOf9n5XnPmJ6_m2VVTUV1Fjt7vjIugFecV0pdi-p2lGtNH1NNAhQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/cms/api/companies",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"api",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cms/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1Mzg0ODc3LCJleHAiOjE2NDYyNDg4NzcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.c_vTqjaLd1WqQkYpN7rCFKXZXXZkpGKFsIQOf9n5XnPmJ6_m2VVTUV1Fjt7vjIugFecV0pdi-p2lGtNH1NNAhQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cms/auth/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "doc",
+			"item": [
+				{
+					"name": "Swagger-ui",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/cms/swagger-ui.html",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"swagger-ui.html"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "swagger-api-dcos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cms/v2/api-docs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cms",
+								"v2",
+								"api-docs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
