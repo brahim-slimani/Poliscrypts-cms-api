@@ -24,6 +24,12 @@ public class UserService {
     @Autowired
     MessageSource messageSource;
 
+    /**
+     * login process is done based on spring security, the credentials will be taken in userDetails service and the process attends within Authentication manager
+     * in case of successful authentication JWT utils will be invoked to generate the bearer token
+     * @param loginRequest credentials payload
+     * @return code, message, authorization
+     */
     public ExtendedGenericPojoResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -32,6 +38,11 @@ public class UserService {
         return new ExtendedGenericPojoResponse(authorization);
     }
 
+    /**
+     * this method invalidate the token in the blacklist so that it will not be used again after logging out
+     * @param authorization token to be invalidated
+     * @return code, message
+     */
     public GenericPojoResponse logout(String authorization){
         jwtUtils.invalidateToken(authorization);
         return new GenericPojoResponse(0, messageSource.getMessage("SUCCESS", null, new Locale("en")));

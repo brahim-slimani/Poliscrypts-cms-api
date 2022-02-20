@@ -1,6 +1,6 @@
 package com.poliscrypts.api.security;
 
-import com.poliscrypts.api.exception.UserException;
+import com.poliscrypts.api.exception.TokenException;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.Cache;
@@ -33,8 +33,13 @@ public class JwtUtils {
     private String TOKEN_ISS;
 
     CacheManager cm = CacheManager.getInstance();
-    Cache cache = cm.getCache("blacklistToken");
+    Cache cache = cm.getCache("tokenBlacklist");
 
+    /**
+     * this method generates JWT token
+     * @param auth success authentication returned by Authentication Manager of spring security
+     * @return bearer token
+     */
     public String generateToken(Authentication auth) {
         User userPrincipal = (User) auth.getPrincipal();
         Claims claims = Jwts.claims()
@@ -51,6 +56,11 @@ public class JwtUtils {
         return token;
     }
 
+    /**
+     * validate the JWT token by checking out that it's not blacklisted, verify the signature, expiration,..
+     * @param token to be validated
+     * @return true if it is valid JWT token
+     */
     public boolean validateJwtToken(String token) {
         try {
             isNotBlacklistedToken(TOKEN_PREFIX+token);
@@ -58,44 +68,60 @@ public class JwtUtils {
             return true;
         } catch (SignatureException e) {
             log.error("Invalid JWT signature: {}", e.getMessage());
-            throw new UserException(e.getMessage(), 401);
+            throw new TokenException(e.getMessage(), 401);
         } catch (MalformedJwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
-            throw new UserException(e.getMessage(), 401);
+            throw new TokenException(e.getMessage(), 401);
         } catch (ExpiredJwtException e) {
             log.error("JWT token is expired: {}", e.getMessage());
-            throw new UserException(e.getMessage(), 401);
+            throw new TokenException(e.getMessage(), 401);
         } catch (UnsupportedJwtException e) {
             log.error("JWT token is unsupported: {}", e.getMessage());
-            throw new UserException(e.getMessage(), 401);
+            throw new TokenException(e.getMessage(), 401);
         } catch (IllegalArgumentException e) {
             log.error("JWT claims string is empty: {}", e.getMessage());
-            throw new UserException(e.getMessage(), 401);
+            throw new TokenException(e.getMessage(), 401);
         }
     }
 
+    /**
+     * parse the data claims injected in JWT token
+     * @param token bearer token to be parsed
+     * @return Data claims
+     */
     public Jws<Claims> getClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
     }
 
+    /**
+     * retrieve the username (subject) data issued in JWT token
+     * @param token token to be parsed
+     * @return username
+     */
     public String getUsernameFromToken(String token) {
-        try {
-            return getClaimsFromToken(token).getBody().getSubject();
-        } catch (Exception e) {
-            return null;
-        }
+        return getClaimsFromToken(token).getBody().getSubject();
     }
 
+    /**
+     * this method blacklist the token by putting it in the cache
+     * the period of the cache is equal to the token expiry date
+     * @param token token to be blacklisted
+     */
     public void invalidateToken(String token){
         cache.put(new Element(token, token));
     }
 
+    /**
+     * verify if the token is not figured in the blacklist cache
+     * @param token token to be checked
+     * @return true if it does not exist in the cache
+     */
     public boolean isNotBlacklistedToken(String token) {
         if(!cache.isKeyInCache(token)){
             return true;
         }else {
             log.error("JWT token is blacklisted: {}", token);
-            throw new UserException("Invalid Token", 401);
+            throw new TokenException("Invalid Token", 401);
         }
     }
 }

@@ -10,11 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.nio.file.AccessDeniedException;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -29,11 +29,12 @@ public class ExceptionHandlerAdvice {
     MessageSource messageSource;
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<GenericPojoResponse> globalException(Exception exception) {
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public GenericPojoResponse globalException(Exception exception) {
         exception.printStackTrace();
         log.error(exception.getMessage());
-        GenericPojoResponse response = new GenericPojoResponse(500, messageSource.getMessage("FATAL_ERROR", null, new Locale("en")));
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        GenericPojoResponse response = new GenericPojoResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), messageSource.getMessage("FATAL_ERROR", null, new Locale("en")));
+        return response;
     }
 
     @ExceptionHandler(ContactException.class)
@@ -50,37 +51,32 @@ public class ExceptionHandlerAdvice {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UserException.class)
-    public ResponseEntity<GenericPojoResponse> userException(UserException exception) {
+    @ExceptionHandler(TokenException.class)
+    public ResponseEntity<GenericPojoResponse> userException(TokenException exception) {
         log.warn(exception.getMessage());
         GenericPojoResponse response = new GenericPojoResponse(exception.getCode(), exception.getMessage());
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<GenericPojoResponse> badCredentialsException(BadCredentialsException exception) {
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public GenericPojoResponse badCredentialsException(BadCredentialsException exception) {
         log.warn(exception.getMessage());
-        GenericPojoResponse response = new GenericPojoResponse(401, exception.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        GenericPojoResponse response = new GenericPojoResponse(HttpStatus.UNAUTHORIZED.value(), exception.getMessage());
+        return response;
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> exceptionHandler(ConstraintViolationException e) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExtendedGenericPojoResponse exceptionHandler(ConstraintViolationException e) {
         log.warn(e.getMessage());
         Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
         Set<String> messages = new HashSet<>(constraintViolations.size());
         messages.addAll(constraintViolations.stream()
                 .map(constraintViolation -> String.format("%s", constraintViolation.getMessage()))
                 .collect(Collectors.toList()));
-        ExtendedGenericPojoResponse response = new ExtendedGenericPojoResponse(400, "Error Constraint validation", messages);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<GenericPojoResponse> badCredentialsException(AccessDeniedException exception) {
-        log.warn(exception.getMessage());
-        GenericPojoResponse response = new GenericPojoResponse(403, exception.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        ExtendedGenericPojoResponse response = new ExtendedGenericPojoResponse(HttpStatus.BAD_REQUEST.value(), "Error Constraint validation", messages);
+        return response;
     }
 
 }

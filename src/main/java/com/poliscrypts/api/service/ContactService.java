@@ -37,7 +37,6 @@ public class ContactService {
 
     /**
      * Retrieve all contacts
-     *
      * @return code, message, list of contacts
      */
     public ExtendedGenericPojoResponse getContacts() {
@@ -50,7 +49,6 @@ public class ContactService {
      * First of all we made a check if there is an existing contact which have the same firstName & lastName
      * If the condition is verified at time an exception will be thrown
      * Secondly before persist the object we make checkout through ContactHelper for tva constraint regarding employee & freelancer contact
-     *
      * @param contact payload body of the contact
      * @return code, message, contact object
      */
@@ -67,7 +65,6 @@ public class ContactService {
 
     /**
      * Update contact
-     *
      * @param contact payload body of the contact
      * @return code, message, contact object
      */
@@ -84,7 +81,6 @@ public class ContactService {
 
     /**
      * Delete contact
-     *
      * @param id contact id should be deleted
      * @return code, message, contact object
      */

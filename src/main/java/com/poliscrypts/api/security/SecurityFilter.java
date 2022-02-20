@@ -1,6 +1,6 @@
 package com.poliscrypts.api.security;
 
-import com.poliscrypts.api.exception.UserException;
+import com.poliscrypts.api.exception.TokenException;
 import com.poliscrypts.api.utility.CustomHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +36,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                }catch (UserException e) {
+                }catch (TokenException e) {
                     logger.warn("Failure authorization: "+ e.getMessage());
                     CustomHelper.populateJsonResponse(httpResponse, HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
                 }

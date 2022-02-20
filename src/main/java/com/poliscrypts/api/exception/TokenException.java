@@ -5,11 +5,11 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UserException extends RuntimeException {
+public class TokenException extends RuntimeException {
 
     private Integer code;
 
-    public UserException(String message, Integer code) {
+    public TokenException(String message, Integer code) {
         super(message);
         this.code = code;
     }

@@ -14,7 +14,13 @@ import java.util.Map;
 
 public class CustomHelper {
 
-    public static void populateJsonResponse(HttpServletResponse response, int code,String message) throws IOException {
+    /**
+     * this method allows to send pojo data as JSON object from http servlet response upon request
+     * @param response http servlet response
+     * @param code http status code
+     * @param message custom exception message
+     */
+    public static void populateJsonResponse(HttpServletResponse response, int code, String message) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(code);
         Map<String, Object> body = new HashMap<>();
