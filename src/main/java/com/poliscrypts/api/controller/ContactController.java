@@ -5,11 +5,13 @@ import com.poliscrypts.api.entity.Contact;
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
 import com.poliscrypts.api.model.GenericPojoResponse;
 import com.poliscrypts.api.service.ContactService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@Api(tags = "Contact")
 public class ContactController {
 
     @Autowired

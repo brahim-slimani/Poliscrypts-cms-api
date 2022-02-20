@@ -3,6 +3,9 @@ package com.poliscrypts.api.security;
 import com.poliscrypts.api.exception.UserException;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -29,6 +32,9 @@ public class JwtUtils {
     @Value("${jwt.iss}")
     private String TOKEN_ISS;
 
+    CacheManager cm = CacheManager.getInstance();
+    Cache cache = cm.getCache("blacklistToken");
+
     public String generateToken(Authentication auth) {
         User userPrincipal = (User) auth.getPrincipal();
         Claims claims = Jwts.claims()
@@ -47,6 +53,7 @@ public class JwtUtils {
 
     public boolean validateJwtToken(String token) {
         try {
+            isNotBlacklistedToken(TOKEN_PREFIX+token);
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
             return true;
         } catch (SignatureException e) {
@@ -79,4 +86,16 @@ public class JwtUtils {
         }
     }
 
+    public void invalidateToken(String token){
+        cache.put(new Element(token, token));
+    }
+
+    public boolean isNotBlacklistedToken(String token) {
+        if(!cache.isKeyInCache(token)){
+            return true;
+        }else {
+            log.error("JWT token is blacklisted: {}", token);
+            throw new UserException("Invalid Token", 401);
+        }
+    }
 }

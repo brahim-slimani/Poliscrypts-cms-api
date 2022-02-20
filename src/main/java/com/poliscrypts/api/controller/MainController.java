@@ -1,6 +1,7 @@
 package com.poliscrypts.api.controller;
 
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Locale;
 
 @RestController
+@Api(tags = "Entry Point")
 public class MainController {
 
     @Autowired

@@ -1,14 +1,18 @@
 package com.poliscrypts.api.service;
 
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
+import com.poliscrypts.api.model.GenericPojoResponse;
 import com.poliscrypts.api.model.LoginRequest;
 import com.poliscrypts.api.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.Locale;
 
 @Service
 public class UserService {
@@ -17,6 +21,8 @@ public class UserService {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtUtils jwtUtils;
+    @Autowired
+    MessageSource messageSource;
 
     public ExtendedGenericPojoResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -26,4 +32,8 @@ public class UserService {
         return new ExtendedGenericPojoResponse(authorization);
     }
 
+    public GenericPojoResponse logout(String authorization){
+        jwtUtils.invalidateToken(authorization);
+        return new GenericPojoResponse(0, messageSource.getMessage("SUCCESS", null, new Locale("en")));
+    }
 }

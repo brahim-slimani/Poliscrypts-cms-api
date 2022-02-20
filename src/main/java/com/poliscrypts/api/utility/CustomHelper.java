@@ -32,4 +32,11 @@ public class CustomHelper {
             }
         };
     }
+
+    public static String[] SWAGGER_WHITE_LIST_URLS = {
+            "**/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/webjars/**"
+    };
 }

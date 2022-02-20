@@ -56,7 +56,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(CustomHelper.customAccessDeniedHandler())
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/auth/**", CustomHelper.SWAGGER_WHITE_LIST_URLS.toString()).permitAll()
                 .antMatchers(HttpMethod.GET,"/api/**").hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.USER.name())
                 .antMatchers(HttpMethod.POST,"/api/**").hasAuthority(RoleEnum.ADMIN.name())
                 .antMatchers(HttpMethod.PATCH,"/api/**").hasAuthority(RoleEnum.ADMIN.name())
