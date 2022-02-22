@@ -18,7 +18,7 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
     @Autowired
     MessageSource messageSource;
 
-    @RequestMapping("/error")
+    @RequestMapping("${server.error.path}")
     public GenericPojoResponse handleGeneralError(HttpServletRequest request) {
         Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         Exception exception = (Exception) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);

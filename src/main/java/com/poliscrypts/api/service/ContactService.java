@@ -2,32 +2,26 @@ package com.poliscrypts.api.service;
 
 import com.poliscrypts.api.entity.Company;
 import com.poliscrypts.api.entity.Contact;
+import com.poliscrypts.api.enumeration.ContactTypeEnum;
 import com.poliscrypts.api.exception.CompanyException;
 import com.poliscrypts.api.exception.ContactException;
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
 import com.poliscrypts.api.model.GenericPojoResponse;
 import com.poliscrypts.api.repository.CompanyRepository;
 import com.poliscrypts.api.repository.ContactRepository;
-import com.poliscrypts.api.repository.ContactTypeRepository;
-import com.poliscrypts.api.utility.ContactHelper;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
-@Slf4j
+@CommonsLog
 @Service
 public class ContactService {
 
     @Autowired
     ContactRepository contactRepository;
-
-    @Autowired
-    ContactTypeRepository contactTypeRepository;
 
     @Autowired
     CompanyRepository companyRepository;
@@ -58,11 +52,13 @@ public class ContactService {
         if (contactRepository.findContactByFirstNameAndLastName(contact.getFirstName(), contact.getLastName()).isPresent()) {
             throw new ContactException(messageSource.getMessage("contact.alreadyExist", null, new Locale("en")), 400);
         }
-        //CHECK THE TVA NUMBER CONSTRAINT FOR EMPLOYEE & FREELANCER CONTACT
-        ContactHelper.verifiedTvaConstraint(contactTypeRepository, contact, messageSource);
-        contact.setContactType(contactTypeRepository.findByType(contact.getContactType().getType()));
-        contactRepository.save(contact);
-        return new ExtendedGenericPojoResponse(contact);
+        //CHECK THE TVA NUMBER CONSTRAINT ACCORDING TO CONTACT TYPE
+        if (contact.getContactType() == ContactTypeEnum.FREELANCER && contact.getTvaNumber() == null) {
+            throw new ContactException(messageSource.getMessage("contact.tva.freelancer", null, new Locale("en")), 400);
+        } else if (contact.getContactType() == ContactTypeEnum.EMPLOYEE) {
+            contact.setTvaNumber(null);
+        }
+        return new ExtendedGenericPojoResponse(contactRepository.save(contact));
     }
 
     /**
@@ -72,23 +68,26 @@ public class ContactService {
      * @return code, message, contact object
      */
     public ExtendedGenericPojoResponse updateContact(Contact contact) {
-        contactRepository.findById(contact.getId())
+        Contact contactToBeUpdated = contactRepository.findByUuid(contact.getUuid())
                 .orElseThrow(() -> new ContactException(messageSource.getMessage("contact.notExist", null, new Locale("en")), 400));
-        //CHECK THE TVA NUMBER CONSTRAINT FOR EMPLOYEE & FREELANCER CONTACT
-        ContactHelper.verifiedTvaConstraint(contactTypeRepository, contact, messageSource);
-        contact.setContactType(contactTypeRepository.findByType(contact.getContactType().getType()));
-        contactRepository.save(contact);
-        return new ExtendedGenericPojoResponse(contact);
+        //CHECK THE TVA NUMBER CONSTRAINT ACCORDING TO CONTACT TYPE
+        if (contact.getContactType() == ContactTypeEnum.FREELANCER && contact.getTvaNumber() == null) {
+            throw new ContactException(messageSource.getMessage("contact.tva.freelancer", null, new Locale("en")), 400);
+        } else if (contact.getContactType() == ContactTypeEnum.EMPLOYEE) {
+            contact.setTvaNumber(null);
+        }
+        contact.setId(contactToBeUpdated.getId());
+        return new ExtendedGenericPojoResponse(contactRepository.saveAndFlush(contact));
     }
 
     /**
      * Delete contact
      *
-     * @param id contact id should be deleted
+     * @param uuid index of contact that should be deleted
      * @return code, message, contact object
      */
-    public GenericPojoResponse deleteContact(Integer id) {
-        Optional<Contact> contact = contactRepository.findById(id);
+    public GenericPojoResponse deleteContact(UUID uuid) {
+        Optional<Contact> contact = contactRepository.findByUuid(uuid);
         contact.orElseThrow(() ->
                 new ContactException(messageSource.getMessage("contact.notExist", null, new Locale("en")), 400));
         contactRepository.delete(contact.get());
@@ -98,19 +97,19 @@ public class ContactService {
     /**
      * Assign a contact into specific company
      *
-     * @param contactId contact id to be assigned
-     * @param companyId company id
+     * @param contactUuid contact id to be assigned
+     * @param companyUuid company id
      * @return code, message
      */
-    public GenericPojoResponse assignContact2Company(Integer contactId, Integer companyId) {
-        Optional<Contact> contact = contactRepository.findById(contactId);
-        Optional<Company> company = companyRepository.findById(companyId);
+    public GenericPojoResponse assignContact2Company(UUID contactUuid, UUID companyUuid) {
+        Optional<Contact> contact = contactRepository.findByUuid(contactUuid);
+        Optional<Company> company = companyRepository.findByUuid(companyUuid);
         contact.orElseThrow(() ->
                 new ContactException(messageSource.getMessage("contact.notExist", null, new Locale("en")), 400));
         company.orElseThrow(() ->
                 new CompanyException(messageSource.getMessage("company.notExist", null, new Locale("en")), 400));
         Contact pojoContact = contact.get();
-        List<Company> companies = pojoContact.getCompanies();
+        Set<Company> companies = pojoContact.getCompanies();
         companies.add(company.get());
         pojoContact.setCompanies(companies);
         contactRepository.saveAndFlush(pojoContact);

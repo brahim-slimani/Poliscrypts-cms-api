@@ -8,11 +8,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "USER")
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Getter
-@Setter
 public class User {
 
     @Id

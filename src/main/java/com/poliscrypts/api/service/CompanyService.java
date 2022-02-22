@@ -6,7 +6,7 @@ import com.poliscrypts.api.exception.ContactException;
 import com.poliscrypts.api.model.ExtendedGenericPojoResponse;
 import com.poliscrypts.api.model.GenericPojoResponse;
 import com.poliscrypts.api.repository.CompanyRepository;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -14,8 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 
-@Slf4j
+@CommonsLog
 @Service
 public class CompanyService {
 
@@ -56,20 +57,20 @@ public class CompanyService {
      * @return code, message, company object
      */
     public ExtendedGenericPojoResponse updateCompany(Company company) {
-        companyRepository.findById(company.getId())
+        Company companyToBeUpdated = companyRepository.findByUuid(company.getUuid())
                 .orElseThrow(() -> new ContactException(messageSource.getMessage("company.notExist", null, new Locale("en")), 400));
-        companyRepository.save(company);
-        return new ExtendedGenericPojoResponse(company);
+        company.setId(companyToBeUpdated.getId());
+        return new ExtendedGenericPojoResponse(companyRepository.save(company));
     }
 
     /**
      * Delete company
      *
-     * @param id company id should be deleted
+     * @param uuid uuid index of company that should be deleted
      * @return code, message, company object
      */
-    public GenericPojoResponse deleteCompany(Integer id) {
-        Optional<Company> company = companyRepository.findById(id);
+    public GenericPojoResponse deleteCompany(UUID uuid) {
+        Optional<Company> company = companyRepository.findByUuid(uuid);
         company.orElseThrow(() ->
                 new ContactException(messageSource.getMessage("company.notExist", null, new Locale("en")), 400));
         companyRepository.delete(company.get());

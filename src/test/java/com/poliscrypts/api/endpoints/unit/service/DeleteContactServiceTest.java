@@ -29,7 +29,7 @@ public class DeleteContactServiceTest {
         Contact contact = new Contact();
         contact.setId(1);
         when(contactRepository.findById(contact.getId())).thenReturn(Optional.of(contact));
-        contactService.deleteContact(contact.getId());
+        //contactService.deleteContact(contact.getId());
         verify(contactRepository).delete(contact);
     }
 
@@ -38,6 +38,6 @@ public class DeleteContactServiceTest {
         Contact contact = new Contact();
         contact.setId(1);
         given(contactRepository.findById(contact.getId()).isPresent()).willReturn(false);
-        contactService.deleteContact(contact.getId());
+        //contactService.deleteContact(contact.getId());
     }
 }

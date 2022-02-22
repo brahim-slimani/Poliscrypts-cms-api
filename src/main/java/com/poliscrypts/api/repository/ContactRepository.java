@@ -4,11 +4,11 @@ import com.poliscrypts.api.entity.Contact;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-@Transactional
 public interface ContactRepository extends JpaRepository<Contact, Integer> {
     Optional<Contact> findContactByFirstNameAndLastName(String firstName, String lastName);
+    Optional<Contact> findByUuid(UUID uuid);
 }

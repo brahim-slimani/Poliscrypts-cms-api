@@ -22,9 +22,10 @@ public class CustomHandlerError extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String error = "body is missing in request";
+        String error = "Method Arguments/ request body are invalid";
         return new ResponseEntity<>(new GenericPojoResponse(status.value(), error), status);
     }
+
 
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

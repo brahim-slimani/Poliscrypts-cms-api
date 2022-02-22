@@ -5,14 +5,9 @@ import lombok.Data;
 @Data
 public class ExtendedGenericPojoResponse<T> extends GenericPojoResponse {
     private T data;
-
+    public static final String SUCCESS_MESSAGE = "Sucess";
     public ExtendedGenericPojoResponse(T data) {
-        super (0, "Sucess");
-        this.data = data;
-    }
-
-    public ExtendedGenericPojoResponse(int code, String message, T data) {
-        super(code, message);
+        super (0, SUCCESS_MESSAGE);
         this.data = data;
     }
 }
