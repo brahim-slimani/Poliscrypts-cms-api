@@ -24,15 +24,15 @@ public class UpdateCompanyServiceTest {
     @Test
     public void when_GivenCompany_shouldUpdate_ifFound() {
         Company company = new Company();
-        given(companyRepository.findById(company.getId())).willReturn(Optional.of(company));
+        given(companyRepository.findByUuid(company.getUuid())).willReturn(Optional.of(company));
         companyService.updateCompany(company);
-        verify(companyRepository).save(company);
+        verify(companyRepository).saveAndFlush(company);
     }
 
     @Test(expected = RuntimeException.class)
     public void should_throw_exception_when_company_does_not_exists() {
         Company company = new Company();
-        given(companyRepository.findById(company.getId()).isPresent()).willReturn(false);
+        given(companyRepository.findByUuid(company.getUuid()).isPresent()).willReturn(false);
         companyService.updateCompany(company);
     }
 }

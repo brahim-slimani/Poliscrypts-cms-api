@@ -60,7 +60,7 @@ public class CompanyService {
         Company companyToBeUpdated = companyRepository.findByUuid(company.getUuid())
                 .orElseThrow(() -> new ContactException(messageSource.getMessage("company.notExist", null, new Locale("en")), 400));
         company.setId(companyToBeUpdated.getId());
-        return new ExtendedGenericPojoResponse(companyRepository.save(company));
+        return new ExtendedGenericPojoResponse(companyRepository.saveAndFlush(company));
     }
 
     /**

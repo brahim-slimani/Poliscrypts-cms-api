@@ -13,10 +13,9 @@ import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DeleteContactServiceTest {
+public class UpdateContactServiceTest {
 
     @Mock
     private ContactRepository contactRepository;
@@ -25,19 +24,17 @@ public class DeleteContactServiceTest {
     private ContactService contactService;
 
     @Test
-    public void whenGivenContactId_shouldDelete_ifFound() {
+    public void when_GivenContact_shouldUpdate_ifFound() {
         Contact contact = new Contact();
-        contact.setUuid(java.util.UUID.randomUUID());
-        when(contactRepository.findByUuid(contact.getUuid())).thenReturn(Optional.of(contact));
-        contactService.deleteContact(contact.getUuid());
-        verify(contactRepository).delete(contact);
+        given(contactRepository.findByUuid(contact.getUuid())).willReturn(Optional.of(contact));
+        contactService.updateContact(contact);
+        verify(contactRepository).saveAndFlush(contact);
     }
 
     @Test(expected = RuntimeException.class)
     public void should_throw_exception_when_contact_does_not_exists() {
         Contact contact = new Contact();
-        contact.setUuid(java.util.UUID.randomUUID());
         given(contactRepository.findByUuid(contact.getUuid()).isPresent()).willReturn(false);
-        contactService.deleteContact(contact.getUuid());
+        contactService.updateContact(contact);
     }
 }

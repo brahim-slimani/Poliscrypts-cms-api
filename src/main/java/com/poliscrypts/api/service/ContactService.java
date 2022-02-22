@@ -43,7 +43,7 @@ public class ContactService {
      * Create new contact
      * First of all we made a check if there is an existing contact which have the same firstName & lastName
      * If the condition is verified at time an exception will be thrown
-     * Secondly before persist the object we make checkout through ContactHelper for tva constraint regarding employee & freelancer contact
+     * Secondly before persist the object we make checkout for tva constraint regarding employee & freelancer contact
      *
      * @param contact payload body of the contact
      * @return code, message, contact object

@@ -35,7 +35,7 @@ public class CreateCompanyServiceTest {
     @Test(expected = RuntimeException.class)
     public void should_throw_exception_when_company_exists_withSame_tvaNumber() {
         Company company = new Company();
-        company.setTvaNumber(Long.valueOf(490));
+        company.setTvaNumber(Long.valueOf(49033920));
         given(companyRepository.findByTvaNumber(company.getTvaNumber()).isPresent()).willReturn(true);
         companyService.addNewCompany(company);
     }
