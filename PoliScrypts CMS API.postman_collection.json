@@ -21,7 +21,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Amine\",\r\n    \"lastName\": \"SLIMANI\",\r\n    \"address\": \"Algiers\",\r\n    \"contactType\": {\r\n        \"type\":\"FREELANCER\"\r\n    },\r\n    \"tvaNumber\": 4249\r\n}",
+							"raw": "{\r\n    \"firstName\": \"Amine\",\r\n    \"lastName\": \"SLIMANI\",\r\n    \"address\": \"Algiers\",\r\n    \"contactType\":\"FREELANCER\",\r\n    \"tvaNumber\": 4249\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -56,7 +56,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":2,\r\n    \"firstName\": \"Karim\",\r\n    \"lastName\": \"Meziane\",\r\n    \"address\": \"Algiers\",\r\n    \"contactType\": {\r\n        \"type\":\"EMPLOYEE\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"uuid\":\"c1c35394-a586-45e0-93ff-44eb6326379a\",\r\n    \"firstName\": \"Karim\",\r\n    \"lastName\": \"Meziane\",\r\n    \"address\": \"Algiers\",\r\n    \"contactType\":\"EMPLOYEE\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -99,7 +99,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cms/api/contact?id=1",
+							"raw": "localhost:8080/cms/api/contact?uuid=199c2ba9-d604-411a-9bab-90e337d5d432",
 							"host": [
 								"localhost"
 							],
@@ -111,8 +111,8 @@
 							],
 							"query": [
 								{
-									"key": "id",
-									"value": "1"
+									"key": "uuid",
+									"value": "199c2ba9-d604-411a-9bab-90e337d5d432"
 								}
 							]
 						}
@@ -166,7 +166,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cms/api/assign-contact2company?contactId=3&companyId=2",
+							"raw": "localhost:8080/cms/api/assign-contact2company?contact-uuid=8b9816ee-44c2-431e-b405-e8a6560d0f1b&company-uuid=1n3410vc-44c2-431e-b405-e8a6560d0f1b",
 							"host": [
 								"localhost"
 							],
@@ -178,12 +178,12 @@
 							],
 							"query": [
 								{
-									"key": "contactId",
-									"value": "3"
+									"key": "contact-uuid",
+									"value": "8b9816ee-44c2-431e-b405-e8a6560d0f1b"
 								},
 								{
-									"key": "companyId",
-									"value": "2"
+									"key": "company-uuid",
+									"value": "1n3410vc-44c2-431e-b405-e8a6560d0f1b"
 								}
 							]
 						}
@@ -243,7 +243,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":1,\r\n    \"address\": \"Ouled Fayet, Algiers\",\r\n    \"tvaNumber\": 410000000\r\n}",
+							"raw": "{\r\n    \"uuid\":\"8b9816ee-44c2-431e-b405-e8a6560d0f1b\",\r\n    \"address\": \"Ouled Fayet, Algiers\",\r\n    \"tvaNumber\": 410000000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -286,7 +286,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/cms/api/company?id=2",
+							"raw": "localhost:8080/cms/api/company?uuid=66bfb23b-6b18-4965-9f85-94e57f7b279d",
 							"host": [
 								"localhost"
 							],
@@ -298,8 +298,8 @@
 							],
 							"query": [
 								{
-									"key": "id",
-									"value": "2"
+									"key": "uuid",
+									"value": "66bfb23b-6b18-4965-9f85-94e57f7b279d"
 								}
 							]
 						}
@@ -373,7 +373,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1Mzg0ODc3LCJleHAiOjE2NDYyNDg4NzcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.c_vTqjaLd1WqQkYpN7rCFKXZXXZkpGKFsIQOf9n5XnPmJ6_m2VVTUV1Fjt7vjIugFecV0pdi-p2lGtNH1NNAhQ",
+								"value": "Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNtc19hcGkiLCJhdWQiOiJwb2xpc2NyeXB0c19jbXNfYXBpIiwiaWF0IjoxNjQ1NDk0MDkyLCJleHAiOjE2NDYzNTgwOTIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XX0.Q3FZoUWgAHMIEOxFJoLMlJXl8a1wuYwpc1eo6PZFpcHJInfzhc6AAgxdCspohXtlaQx6ikyp-CfPABkZUI3Jgg",
 								"type": "text"
 							}
 						],
