@@ -3,6 +3,7 @@ package com.poliscrypts.api.security;
 import com.poliscrypts.api.exception.TokenException;
 import com.poliscrypts.api.utility.CustomHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +27,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpRequest, HttpServletResponse httpResponse, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String authorization = httpRequest.getHeader("Authorization");
+            String authorization = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
             if (authorization != null) {
                 try {
                     String token = authorization.split(" ")[1];
