@@ -77,6 +77,7 @@ public class ContactService {
             contact.setTvaNumber(null);
         }
         contact.setId(contactToBeUpdated.getId());
+        contact.setCompanies(contactToBeUpdated.getCompanies());
         return new ExtendedGenericPojoResponse(contactRepository.saveAndFlush(contact));
     }
 
