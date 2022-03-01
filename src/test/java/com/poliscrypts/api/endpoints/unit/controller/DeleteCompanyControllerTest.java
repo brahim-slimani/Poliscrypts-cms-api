@@ -1,0 +1,51 @@
+package com.poliscrypts.api.endpoints.unit.controller;
+
+import com.poliscrypts.api.ContactManagementApiApplication;
+import com.poliscrypts.api.endpoints.unit.utility.Utils;
+import com.poliscrypts.api.entity.Company;
+import com.poliscrypts.api.model.GenericPojoResponse;
+import com.poliscrypts.api.service.CompanyService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.UUID;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@AutoConfigureMockMvc
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ContactManagementApiApplication.class)
+public class DeleteCompanyControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private CompanyService service;
+
+    @Autowired
+    Utils utils;
+
+    @Test
+    public void deleteCompany_whenDeleteMethod() throws Exception {
+        Company company = new Company();
+        company.setUuid(UUID.randomUUID());
+        GenericPojoResponse response = new GenericPojoResponse(0, "Success");
+        when(service.deleteCompany(company.getUuid())).thenReturn(response);
+        mockMvc.perform(delete("/api/company")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", utils.generateAuthJWTToken())
+                .param("uuid", String.valueOf(company.getUuid())))
+                .andExpect(status().isOk());
+    }
+
+}
